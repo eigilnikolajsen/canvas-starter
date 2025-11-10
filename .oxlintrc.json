@@ -5,8 +5,11 @@
 		"import",
 		"jsdoc",
 		"jsx-a11y",
+		"node",
 		"oxc",
 		"promise",
+		"react",
+		"react-perf",
 		"regex",
 		"typescript",
 		"unicorn"

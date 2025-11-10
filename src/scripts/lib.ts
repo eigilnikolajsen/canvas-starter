@@ -1,22 +1,24 @@
+interface Dimensions {
+	width: number;
+	height: number;
+	aspectRatio: number;
+}
+
 const getDimensions = (
 	media?: HTMLImageElement | HTMLVideoElement,
-): { width: number; height: number; aspectRatio: number } => {
-	let width = 600;
-	let height = 742;
-	let aspectRatio = 600 / 742;
+): Dimensions => {
+	let width = 1920;
+	let height = 1080;
 
 	if (media instanceof HTMLImageElement) {
 		({ width, height } = media);
-		aspectRatio = width / height;
 	}
 
 	if (media instanceof HTMLVideoElement) {
-		width = media.videoWidth;
-		height = media.videoHeight;
-		aspectRatio = media.videoWidth / media.videoHeight;
+		({ videoWidth: width, videoHeight: height } = media);
 	}
 
-	return { width, height, aspectRatio };
+	return { width, height, aspectRatio: width / height };
 };
 
 const loadImage = async (url: string): Promise<HTMLImageElement> =>
@@ -47,3 +49,4 @@ const loadVideo = async (url: string): Promise<HTMLVideoElement> =>
 	});
 
 export { getDimensions, loadImage, loadVideo };
+export type { Dimensions };

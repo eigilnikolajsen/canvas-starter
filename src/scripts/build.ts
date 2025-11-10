@@ -6,5 +6,6 @@ await Bun.build({
 	entrypoints: ["public/index.html"],
 	outdir: "dist",
 	plugins: [tailwindcss],
-	minify: false,
+	minify: true,
+	splitting: true,
 });

@@ -9,6 +9,7 @@
 		"mediabunny": "^1.24.4",
 		"oxlint": "^1.26.0",
 		"oxlint-tsgolint": "^0.5.1",
+		"p5": "^2.0.5",
 		"prettier": "^3.6.2",
 		"react": "^19.2.0",
 		"react-dom": "^19.2.0",
@@ -26,9 +27,9 @@
 	},
 	"private": true,
 	"scripts": {
-		"build": "bun run server/build.ts",
+		"build": "bun run src/scripts/build.ts",
 		"check": "tsc --noEmit",
-		"dev": "bun run --watch server/index.ts",
+		"dev": "bun public/index.html --console --port=3191",
 		"format": "bunx prettier . --write --experimental-cli",
 		"lint": "oxlint --type-aware"
 	},

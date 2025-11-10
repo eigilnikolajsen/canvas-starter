@@ -1,16 +1,17 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import {
 	canvasToImageBlob,
 	canvasToVideoBlob,
 	downloadFile,
 } from "../scripts/canvas-export";
-import { store } from "../scripts/hooks";
+import { useStore } from "../scripts/hooks";
 import type { VoidComponent } from "../scripts/types";
 
 const Export: VoidComponent = () => {
+	const [store] = useStore();
 	const [progress, setProgress] = useState(0);
 
-	const handleExportImage = async (): Promise<void> => {
+	const handleExportImage = useCallback(async (): Promise<void> => {
 		const canvas = document.querySelector("canvas");
 		if (!canvas) {
 			return;
@@ -21,9 +22,9 @@ const Export: VoidComponent = () => {
 		if (blob) {
 			downloadFile(blob, store.fileName);
 		}
-	};
+	}, [store.fileName]);
 
-	const handleExportVideo = async (): Promise<void> => {
+	const handleExportVideo = useCallback(async (): Promise<void> => {
 		const canvas = document.querySelector("canvas");
 		const video = document.querySelector("video");
 		if (!canvas || !video) {
@@ -42,7 +43,7 @@ const Export: VoidComponent = () => {
 		if (blob) {
 			downloadFile(blob, store.fileName);
 		}
-	};
+	}, [store.fileName]);
 
 	return (
 		<li>

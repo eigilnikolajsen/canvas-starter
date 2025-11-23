@@ -8,8 +8,6 @@
 		"node",
 		"oxc",
 		"promise",
-		"react",
-		"react-perf",
 		"regex",
 		"typescript",
 		"unicorn"
@@ -31,10 +29,6 @@
 		"oxc/no-async-await": "off",
 		"oxc/no-optional-chaining": "off",
 		"oxc/no-rest-spread-properties": "off",
-		"react/jsx-filename-extension": [
-			"warn",
-			{ "extensions": [".jsx", ".tsx"] }
-		],
 
 		// Suspicious
 		"react/react-in-jsx-scope": "off",
@@ -47,6 +41,7 @@
 		"import/max-dependencies": "off",
 		"typescript/strict-boolean-expressions": "off",
 		"unicorn/prefer-top-level-await": "off",
+		"typescript/no-misused-promises": "off",
 
 		// Style
 		"eslint/id-length": "off",

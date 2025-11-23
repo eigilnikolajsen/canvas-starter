@@ -4,9 +4,7 @@ interface Dimensions {
 	aspectRatio: number;
 }
 
-const getDimensions = (
-	media?: HTMLImageElement | HTMLVideoElement,
-): Dimensions => {
+const getDimensions = (media?: HTMLImageElement | HTMLVideoElement): Dimensions => {
 	let width = 1920;
 	let height = 1080;
 
@@ -33,7 +31,7 @@ const loadImage = async (url: string): Promise<HTMLImageElement> =>
 	});
 
 const loadVideo = async (url: string): Promise<HTMLVideoElement> =>
-	new Promise((resolve, reject) => {
+	new Promise<HTMLVideoElement>((resolve, reject) => {
 		const video = document.createElement("video");
 		video.crossOrigin = "anonymous";
 		video.autoplay = true;
@@ -41,12 +39,27 @@ const loadVideo = async (url: string): Promise<HTMLVideoElement> =>
 		video.loop = true;
 		video.playsInline = true;
 		video.addEventListener("error", reject);
-		video.addEventListener("canplay", async (): Promise<void> => {
-			await video.play();
-			resolve(video);
+		video.addEventListener("canplay", (): void => {
+			video
+				.play()
+				.then((): void => {
+					resolve(video);
+					return;
+				})
+				.catch(reject);
 		});
+
 		video.src = url;
 	});
 
-export { getDimensions, loadImage, loadVideo };
+const getCanvas = (): HTMLCanvasElement => {
+	const canvas = document.querySelector("canvas.p5Canvas");
+	if (!(canvas instanceof HTMLCanvasElement)) {
+		throw new Error("Canvas not found");
+	}
+
+	return canvas;
+};
+
+export { getCanvas, getDimensions, loadImage, loadVideo };
 export type { Dimensions };

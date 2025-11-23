@@ -32,11 +32,8 @@
 }
 
 @utility bg-grid {
-	background: repeating-conic-gradient(
-			hsla(0, 0%, 0%, 0.9) 0 25%,
-			hsla(0, 0%, 0%, 1) 0 50%
-		)
-		50% / 2rem 2rem;
+	background: repeating-conic-gradient(hsla(0, 0%, 0%, 0.9) 0 25%, hsla(0, 0%, 0%, 1) 0 50%) 50% /
+		2rem 2rem;
 }
 
 @utility clickable {

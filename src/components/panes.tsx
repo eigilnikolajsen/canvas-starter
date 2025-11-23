@@ -1,26 +1,33 @@
-import type { VoidComponent } from "@/scripts/types";
-import { useCallback, useEffect } from "react";
+import { addExportFolder, localPaneState, store } from "@/scripts/pane-utils";
+import type { VoidComponent } from "solid-js";
+import { createSignal, onCleanup, onMount } from "solid-js";
+import { Pane } from "tweakpane";
 
 const Panes: VoidComponent = () => {
-	// Hide panes when Escape is pressed
-	const onKeyDown = useCallback((event: KeyboardEvent): void => {
-		const tweakpaneContainer = document.querySelector(".tp-dfwv");
+	const [containerRef, setContainerRef] = createSignal<HTMLDivElement>();
 
-		if (event.key === "Escape" && tweakpaneContainer) {
-			tweakpaneContainer.classList.toggle("hidden");
-		}
-	}, []);
+	onMount(() => {
+		// Create the tweakpane instance
+		const pane = new Pane({ title: "Canvas Starter", container: containerRef() });
 
-	// Add event listener for Escape key
-	useEffect(() => {
-		document.addEventListener("keydown", onKeyDown);
+		// Add bindings from the store to the pane
+		pane.addBinding(store, "width", { min: 1, max: 3840, step: 1 });
+		pane.addBinding(store, "height", { min: 1, max: 2160, step: 1 });
+		pane.addBinding(store, "cellSize");
 
-		return (): void => {
-			document.removeEventListener("keydown", onKeyDown);
-		};
-	}, [onKeyDown]);
+		// Export folder
+		addExportFolder(pane);
 
-	return null;
+		// Save the pane state to localStorage when it changes
+		localPaneState(pane);
+
+		// Dispose the pane when the component is unmounted
+		onCleanup(() => {
+			pane.dispose();
+		});
+	});
+
+	return <div ref={setContainerRef} class="absolute top-2 right-2"></div>;
 };
 
-export { Panes };
+export { Panes, store };

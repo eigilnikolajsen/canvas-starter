@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "./tweakpane.css";
 
 @font-face {
 	font-family: "Fragment Mono";
@@ -22,6 +23,7 @@
 @layer base {
 	:root {
 		--tp-base-font-family: var(--font-sans);
+		--tp-blade-value-width: 16rem;
 	}
 
 	button {

@@ -174,7 +174,7 @@ const framesCanvasToVideoBlob = async ({
 	frames: number;
 	fps: number;
 	onProgress?: (progress: number) => void;
-	onDraw?: (sample: VideoSample | number) => void;
+	onDraw?: (frame: number) => void;
 	videoFormat?: (typeof VIDEO_FORMATS)[number];
 	metadataTags?: MetadataTags;
 }): Promise<Blob | undefined> => {

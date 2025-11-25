@@ -1,5 +1,6 @@
-import { sketch } from "@/scripts/sketch";
-import { store } from "@/scripts/store";
+import { loop } from "@/scripts/loop";
+import { setup } from "@/scripts/sketch";
+import { globalStore, store } from "@/scripts/store";
 import P5 from "p5";
 import type { VoidComponent } from "solid-js";
 import { createEffect, createSignal, onCleanup, onMount } from "solid-js";
@@ -8,19 +9,40 @@ const P5Container: VoidComponent = () => {
 	const [containerRef, setContainerRef] = createSignal<HTMLDivElement>();
 
 	onMount(() => {
-		store.p5Container = containerRef();
+		const p5 = new P5(
+			(p5) => {
+				p5.setup = async (): Promise<void> => {
+					globalStore.progress = store.startFrame;
 
-		const p5 = new P5(sketch, store.p5Container, false);
-		store.p5 = p5;
+					p5.createCanvas(store.width, store.height);
+
+					if (!globalStore.pane) {
+						return;
+					}
+
+					await setup({ pane: globalStore.pane, store });
+
+					loop();
+				};
+
+				p5.draw = (): void => {
+					//
+				};
+			},
+			containerRef(),
+			false,
+		);
+
+		globalStore.p5 = p5;
 
 		window.addEventListener("resize", handleResize);
 
 		onCleanup(() => {
-			store.p5?.remove();
+			p5.remove();
 
-			if (store.loopTimeout) {
-				clearTimeout(store.loopTimeout);
-				store.loopTimeout = null;
+			if (globalStore.loopTimeout) {
+				clearTimeout(globalStore.loopTimeout);
+				globalStore.loopTimeout = null;
 			}
 
 			window.removeEventListener("resize", handleResize);
@@ -33,9 +55,14 @@ const P5Container: VoidComponent = () => {
 	});
 
 	const handleResize = (): void => {
-		const { width, height, fitScreen, p5, scaleBinding, pane } = store;
+		const { p5, scaleBinding, pane } = globalStore;
+		const { width, height, fitScreen } = store;
 
-		p5?.resizeCanvas(width, height);
+		if (!p5 || !pane) {
+			return;
+		}
+
+		p5.resizeCanvas(width, height);
 
 		if (scaleBinding) {
 			scaleBinding.disabled = fitScreen;
@@ -53,7 +80,7 @@ const P5Container: VoidComponent = () => {
 			store.scale = heightDifference;
 		}
 
-		pane?.refresh();
+		pane.refresh();
 	};
 
 	return (

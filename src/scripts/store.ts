@@ -4,26 +4,26 @@ import type P5 from "p5";
 import { createMutable } from "solid-js/store";
 import type { Pane } from "tweakpane";
 
-const store = createMutable({
-	// Global
-	p5Container: undefined as HTMLDivElement | undefined,
+const globalStore = createMutable({
 	p5: null as typeof P5.prototype | null,
 	pane: null as Pane | null,
 	scaleBinding: null as BindingApi | null,
 	loopTimeout: null as NodeJS.Timeout | null,
+	exportProgress: 0,
+	progress: 0,
+	isExporting: false,
+});
 
+const store = createMutable({
 	// Export
 	fileName: "canvas-starter",
 	imageFormat: "png" as (typeof IMAGE_FORMATS)[number],
 	videoFormat: "mp4" as (typeof VIDEO_FORMATS)[number],
-	exportProgress: 0,
 	startFrame: 0,
 	outputFrames: 120,
 	frameRate: 60,
-	isExporting: false,
 
 	// Settings
-	progress: 0,
 	seed: 1,
 
 	// Size
@@ -38,4 +38,4 @@ const store = createMutable({
 	circleMovement: 100,
 });
 
-export { store };
+export { globalStore, store };

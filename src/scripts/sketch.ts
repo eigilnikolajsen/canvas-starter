@@ -1,41 +1,13 @@
-import { store } from "@/scripts/store";
-import type P5 from "p5";
+import type { DrawContext, SetupContext } from "./types";
 
-const sketch = (p5: typeof P5.prototype): void => {
-	p5.setup = (): void => {
-		store.progress = store.startFrame;
-
-		p5.createCanvas(store.width, store.height);
-
-		draw();
-	};
-
-	p5.draw = (): void => {
-		//
-	};
+const setup = async ({ pane, store }: SetupContext): Promise<void> => {
+	pane.addBinding(store, "circleRadius", { min: 1, max: 100, step: 0.1 });
+	pane.addBinding(store, "circleSpeed", { min: 0.001, max: 0.1, step: 0.001 });
+	pane.addBinding(store, "circleMovement", { min: 1, max: 100, step: 1 });
 };
 
-const draw = (): void => {
-	const { circleRadius, circleSpeed, circleMovement, seed, p5, isExporting } = store;
-	if (!p5) {
-		return;
-	}
-
-	if (!isExporting) {
-		store.loopTimeout = setTimeout(draw, 1000 / store.frameRate);
-	}
-
-	// Set random seed from the store
-	p5.randomSeed(seed);
-
-	// Clear the canvas
-	p5.clear();
-
-	store.progress += (1000 / store.frameRate) * 0.01;
-
-	// ================================================
-	// ================ Sketch start ==================
-	// ================================================
+const draw = ({ p5, progress, store }: DrawContext): void => {
+	const { circleRadius, circleSpeed, circleMovement } = store;
 
 	p5.background("#ffffff");
 
@@ -44,10 +16,10 @@ const draw = (): void => {
 
 	for (let i = 0; i < 100; i += 1) {
 		const x =
-			circleMovement * p5.sin(store.progress * (circleSpeed + p5.random(0, 0.1)))
+			circleMovement * p5.sin(progress * 0.01 * (circleSpeed + p5.random(0, 0.1)))
 			+ p5.random(-p5.width / 2, p5.width / 2);
 		const y =
-			circleMovement * p5.cos(store.progress * (circleSpeed - p5.random(0, 0.1)))
+			circleMovement * p5.cos(progress * 0.01 * (circleSpeed - p5.random(0, 0.1)))
 			+ p5.random(-p5.height / 2, p5.height / 2);
 
 		p5.fill(p5.random(0, 255), p5.random(0, 255), p5.random(0, 255));
@@ -55,4 +27,4 @@ const draw = (): void => {
 	}
 };
 
-export { draw, sketch };
+export { draw, setup };

@@ -1,12 +1,11 @@
 import type { DrawContext, SetupContext } from "./types";
 
-const setup = async ({ pane, store }: SetupContext): Promise<void> => {
-	pane.addBinding(store, "circleRadius", { min: 1, max: 100, step: 0.1 });
-	pane.addBinding(store, "circleSpeed", { min: 0.001, max: 0.1, step: 0.001 });
-	pane.addBinding(store, "circleMovement", { min: 1, max: 100, step: 1 });
+const setup = async (_context: SetupContext): Promise<void> => {
+	//
 };
 
-const draw = ({ p5, progress, store }: DrawContext): void => {
+const draw = (context: DrawContext): void => {
+	const { p5, progress, store } = context;
 	const { circleRadius, circleSpeed, circleMovement } = store;
 
 	p5.background("#ffffff");

@@ -12,15 +12,11 @@ const P5Container: VoidComponent = () => {
 		const p5 = new P5(
 			(p5) => {
 				p5.setup = async (): Promise<void> => {
-					globalStore.progress = store.startFrame;
+					globalStore.progress = (store.startFrame * 1000) / store.frameRate;
 
 					p5.createCanvas(store.width, store.height);
 
-					if (!globalStore.pane) {
-						return;
-					}
-
-					await setup({ pane: globalStore.pane, store });
+					await setup({ store });
 
 					loop();
 				};
@@ -35,7 +31,7 @@ const P5Container: VoidComponent = () => {
 
 		globalStore.p5 = p5;
 
-		window.addEventListener("resize", handleResize);
+		globalThis.addEventListener("resize", handleResize);
 
 		onCleanup(() => {
 			p5.remove();
@@ -45,7 +41,7 @@ const P5Container: VoidComponent = () => {
 				globalStore.loopTimeout = null;
 			}
 
-			window.removeEventListener("resize", handleResize);
+			globalThis.removeEventListener("resize", handleResize);
 		});
 	});
 
@@ -68,19 +64,13 @@ const P5Container: VoidComponent = () => {
 			scaleBinding.disabled = fitScreen;
 		}
 
-		if (!fitScreen) {
-			return;
+		if (fitScreen) {
+			if (width / height > innerWidth / innerHeight) {
+				store.scale = innerWidth / width;
+			} else {
+				store.scale = innerHeight / store.height;
+			}
 		}
-
-		if (width / height > innerWidth / innerHeight) {
-			const widthDifference = innerWidth / width;
-			store.scale = widthDifference;
-		} else {
-			const heightDifference = innerHeight / store.height;
-			store.scale = heightDifference;
-		}
-
-		pane.refresh();
 	};
 
 	return (

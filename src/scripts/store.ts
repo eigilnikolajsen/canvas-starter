@@ -12,6 +12,7 @@ const globalStore = createMutable({
 	exportProgress: 0,
 	progress: 0,
 	isExporting: false,
+	hideMenu: false,
 });
 
 const store = createMutable({

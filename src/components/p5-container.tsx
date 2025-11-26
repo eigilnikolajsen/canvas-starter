@@ -1,9 +1,9 @@
-import { loop } from "@/scripts/loop";
-import { setup } from "@/scripts/sketch";
-import { globalStore, store } from "@/scripts/store";
 import P5 from "p5";
 import type { VoidComponent } from "solid-js";
 import { createEffect, createSignal, onCleanup, onMount } from "solid-js";
+import { loop } from "../scripts/loop";
+import { setup } from "../scripts/sketch";
+import { globalStore, store } from "../scripts/store";
 
 const P5Container: VoidComponent = () => {
 	const [containerRef, setContainerRef] = createSignal<HTMLDivElement>();
@@ -51,18 +51,14 @@ const P5Container: VoidComponent = () => {
 	});
 
 	const handleResize = (): void => {
-		const { p5, scaleBinding, pane } = globalStore;
+		const { p5 } = globalStore;
 		const { width, height, fitScreen } = store;
 
-		if (!p5 || !pane) {
+		if (!p5) {
 			return;
 		}
 
 		p5.resizeCanvas(width, height);
-
-		if (scaleBinding) {
-			scaleBinding.disabled = fitScreen;
-		}
 
 		if (fitScreen) {
 			if (width / height > innerWidth / innerHeight) {

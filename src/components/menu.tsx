@@ -1,6 +1,6 @@
-import { globalStore, store } from "@/scripts/store";
 import type { VoidComponent } from "solid-js";
 import { createEffect, onCleanup, onMount } from "solid-js";
+import { globalStore, store } from "../scripts/store";
 import { Export } from "./export";
 import { Size } from "./size";
 import { Sketch } from "./sketch";

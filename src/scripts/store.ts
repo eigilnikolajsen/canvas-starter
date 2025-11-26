@@ -1,13 +1,9 @@
-import type { IMAGE_FORMATS, VIDEO_FORMATS } from "@/scripts/export";
-import type { BindingApi } from "@tweakpane/core";
 import type P5 from "p5";
 import { createMutable } from "solid-js/store";
-import type { Pane } from "tweakpane";
+import type { IMAGE_FORMATS, VIDEO_FORMATS } from "./export";
 
 const globalStore = createMutable({
 	p5: null as typeof P5.prototype | null,
-	pane: null as Pane | null,
-	scaleBinding: null as BindingApi | null,
 	loopTimeout: null as NodeJS.Timeout | null,
 	exportProgress: 0,
 	progress: 0,

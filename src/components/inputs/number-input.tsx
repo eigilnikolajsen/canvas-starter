@@ -1,5 +1,5 @@
-import { pipe, step } from "@/scripts/lib";
 import type { VoidComponent } from "solid-js";
+import { pipe, step } from "../../scripts/lib";
 
 interface Props {
 	label: string;

@@ -17,8 +17,7 @@
 		"verbatimModuleSyntax": true,
 		"moduleResolution": "Bundler",
 		"forceConsistentCasingInFileNames": true,
-		"skipDefaultLibCheck": true,
-		"paths": { "@/*": ["./src/*"], "~/*": ["./public/*"] }
+		"skipDefaultLibCheck": true
 	},
 	"include": ["**/*.ts", "**/*.tsx", "src/types/p5.d.ts"]
 }

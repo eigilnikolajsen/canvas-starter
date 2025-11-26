@@ -1,15 +1,15 @@
+import type { VoidComponent } from "solid-js";
+import { Show } from "solid-js";
 import {
 	canvasToImageBlob,
 	downloadFile,
 	framesCanvasToVideoBlob,
 	IMAGE_FORMATS,
 	VIDEO_FORMATS,
-} from "@/scripts/export";
-import { getCanvas } from "@/scripts/lib";
-import { loop } from "@/scripts/loop";
-import { globalStore, store } from "@/scripts/store";
-import type { VoidComponent } from "solid-js";
-import { Show } from "solid-js";
+} from "../scripts/export";
+import { getCanvas } from "../scripts/lib";
+import { loop } from "../scripts/loop";
+import { globalStore, store } from "../scripts/store";
 import { Folder } from "./folder";
 import { NumberInput } from "./inputs/number-input";
 import { RadioInput } from "./inputs/radio-input";

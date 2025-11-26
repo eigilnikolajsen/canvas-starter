@@ -1,5 +1,5 @@
-import { store } from "@/scripts/store";
 import type { VoidComponent } from "solid-js";
+import { store } from "../scripts/store";
 import { Folder } from "./folder";
 import { RangeInput } from "./inputs/range-input";
 

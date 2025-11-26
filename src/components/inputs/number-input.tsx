@@ -10,13 +10,14 @@ interface Props {
 	onChange: (value: number) => void;
 }
 
+/** Adds a number input to the UI */
 const NumberInput: VoidComponent<Props> = (props) => (
-	<label class="grid *:row-1 *:col-1 shadow-menu">
+	<label class="shadow-menu grid *:col-1 *:row-1">
 		<span class="whitespace-nowrap">{props.label}</span>
 
 		<input
 			type="number"
-			class="w-full h-3 text-right"
+			class="h-3 w-full text-right"
 			value={props.value}
 			name={props.label}
 			min={props.min}

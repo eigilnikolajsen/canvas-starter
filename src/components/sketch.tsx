@@ -3,6 +3,7 @@ import { controls } from "../scripts/stores";
 import { Folder } from "./folder";
 import { RangeInput } from "./inputs/range-input";
 
+/** Component for the sketch controls */
 const Sketch: VoidComponent = () => (
 	<Folder title="Sketch" open={true}>
 		<RangeInput

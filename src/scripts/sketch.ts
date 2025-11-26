@@ -1,12 +1,14 @@
 import type P5 from "p5";
 import { controls } from "./stores";
 
+/** Sets up the sketch */
 const setup = async (p5: typeof P5.prototype): Promise<void> => {
 	const { width, height } = controls;
 
 	p5.createCanvas(width, height);
 };
 
+/** Draws the sketch to the canvas */
 const draw = (p5: typeof P5.prototype): void => {
 	const { currentFrame, circleRadius, circleSpeed, circleMovement } = controls;
 

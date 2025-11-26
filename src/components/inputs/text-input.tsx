@@ -7,6 +7,7 @@ interface Props {
 	onChange: (value: string) => void;
 }
 
+/** Adds a text input to the UI */
 const TextInput: VoidComponent<Props> = (props) => (
 	<label class="flex flex-col">
 		<span>{props.label}</span>
@@ -15,7 +16,7 @@ const TextInput: VoidComponent<Props> = (props) => (
 			type="text"
 			value={props.value}
 			name={props.name}
-			class="w-full h-3 shadow-menu"
+			class="shadow-menu h-3 w-full"
 			autocomplete="off"
 			onChange={(event) => {
 				props.onChange(event.target.value);

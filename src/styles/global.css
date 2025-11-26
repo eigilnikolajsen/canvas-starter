@@ -1,16 +1,6 @@
 @import "tailwindcss";
 
 @font-face {
-	font-family: "Fragment Mono";
-	src: url("/fonts/FragmentMono-Regular.woff2") format("woff2");
-}
-
-@font-face {
-	font-family: "Fragment Mono Italic";
-	src: url("/fonts/FragmentMono-Italic.woff2") format("woff2");
-}
-
-@font-face {
 	font-family: "CommitMono";
 	src: url("/fonts/CommitMonoV143-VF.woff2") format("woff2-variations");
 }
@@ -65,9 +55,9 @@
 		display: none;
 	}
 
-	canvas {
+	/* canvas {
 		image-rendering: pixelated;
-	}
+	} */
 
 	input[type="range"] {
 		appearance: none;

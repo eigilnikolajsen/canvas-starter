@@ -6,13 +6,13 @@ import { Sketch } from "./sketch";
 
 const LOCAL_STORAGE_KEY = `store-state-7`;
 
+/** Component for the floating controls */
 const Controls: VoidComponent = () => {
 	onMount(() => {
-		// Load the pane state from localStorage
+		// Load the controls state from localStorage
 		try {
 			const state = localStorage.getItem(LOCAL_STORAGE_KEY);
 			const localState = JSON.parse(state ?? "{}"); // oxlint-disable-line no-unsafe-argument no-unsafe-assignment
-
 			Object.assign(controls, localState);
 		} catch (error) {
 			console.error(error);
@@ -35,16 +35,18 @@ const Controls: VoidComponent = () => {
 		}
 	};
 
+	// Save the value of the controls to localStorage to persist between sessions
 	createEffect(() => {
 		localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(controls));
 	});
 
 	return (
 		<div
-			class="absolute top-0 left-0 m-2 flex flex-col gap-2 text-black bg-white p-2 w-96 translate-x-[calc(-100%-0.5rem)] max-h-[calc(100%-0.5rem)] data-menu:translate-x-0 transition-transform duration-300 overflow-y-auto [-webkit-scrollbar-width:none] [-ms-overflow-style:none] [scrollbar-width:none]"
+			class="absolute top-0 left-0 m-2 flex max-h-[calc(100%-0.5rem)] w-96 translate-x-[calc(-100%-0.5rem)] flex-col gap-2 overflow-y-auto bg-white p-2 text-black transition-transform duration-300 [-ms-overflow-style:none] [-webkit-scrollbar-width:none] [scrollbar-width:none] data-menu:translate-x-0"
 			data-menu={internal.hideMenu ? undefined : ""}
 		>
 			<General />
+
 			<Sketch />
 		</div>
 	);

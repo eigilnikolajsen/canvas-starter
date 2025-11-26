@@ -7,8 +7,9 @@ interface Props {
 	onChange: (value: boolean) => void;
 }
 
+/** Adds a checkbox input to the UI */
 const CheckboxInput: VoidComponent<Props> = (props) => (
-	<label class="flex items-center shadow-menu clickable">
+	<label class="shadow-menu clickable flex items-center">
 		<input
 			type="checkbox"
 			checked={props.value}

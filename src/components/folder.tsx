@@ -5,6 +5,7 @@ interface Props {
 	open?: boolean;
 }
 
+/** Adds a folder to the UI */
 const Folder: ParentComponent<Props> = (props) => (
 	<details class="shadow-menu group" open={props.open}>
 		<summary class="clickable flex items-center justify-between">

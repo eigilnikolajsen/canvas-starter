@@ -17,6 +17,7 @@ import { RadioInput } from "./inputs/radio-input";
 import { RangeInput } from "./inputs/range-input";
 import { TextInput } from "./inputs/text-input";
 
+/** Component for the general controls */
 const General: VoidComponent = () => (
 	<Folder title="General" open={false}>
 		<RangeInput

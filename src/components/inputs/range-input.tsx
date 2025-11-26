@@ -10,16 +10,17 @@ interface Props {
 	onChange: (value: number) => void;
 }
 
+/** Adds a range slider input to the UI */
 const RangeInput: VoidComponent<Props> = (props) => (
 	<div class="flex flex-col gap-[0.5px]">
-		<label class="grid *:row-1 *:col-1 shadow-menu">
+		<label class="shadow-menu grid *:col-1 *:row-1">
 			<span class="whitespace-nowrap">{props.label}</span>
 
 			<input
 				type="text"
 				value={props.value}
 				name={props.label}
-				class="text-right h-3 flex-1"
+				class="h-3 flex-1 text-right"
 				autocomplete="off"
 				onKeyDown={(event) => {
 					const increasing = event.key === "ArrowUp" || event.key === "ArrowRight";

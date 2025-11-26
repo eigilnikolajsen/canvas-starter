@@ -2,6 +2,7 @@ import type P5 from "p5";
 import { createMutable } from "solid-js/store";
 import type { IMAGE_FORMATS, VIDEO_FORMATS } from "./export";
 
+/** Internal store for state that is not controlled by the user */
 const internal = createMutable({
 	p5: undefined as typeof P5.prototype | undefined,
 	timeoutId: undefined as NodeJS.Timeout | undefined,
@@ -10,6 +11,7 @@ const internal = createMutable({
 	hideMenu: false,
 });
 
+/** Controls store for state that is controlled by the user */
 const controls = createMutable({
 	// General
 	width: 720,

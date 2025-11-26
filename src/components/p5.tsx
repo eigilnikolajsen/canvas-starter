@@ -13,8 +13,10 @@ const P5: VoidComponent = () => {
 		const p5 = new P5Lib(
 			(p5) => {
 				p5.setup = async (): Promise<void> => {
+					// Run the external setup function
 					await setup(p5);
 
+					// Start the loop
 					loop();
 				};
 
@@ -26,6 +28,7 @@ const P5: VoidComponent = () => {
 			false,
 		);
 
+		// Store the instance in the internal store
 		internal.p5 = p5;
 
 		addEventListener("resize", handleResize);
@@ -39,7 +42,7 @@ const P5: VoidComponent = () => {
 		});
 	});
 
-	// Reactive effect to handle resize when the store changes
+	// Reactive effect to handle canvas resize when the controls change
 	createEffect(() => {
 		handleResize();
 	});
@@ -54,6 +57,7 @@ const P5: VoidComponent = () => {
 
 		p5.resizeCanvas(width, height);
 
+		// If the fit screen option is enabled, adjust the scale to fit the canvas to the screen (object-fit: contain)
 		if (fitScreen) {
 			if (width / height > innerWidth / innerHeight) {
 				controls.scale = innerWidth / width;
@@ -67,7 +71,7 @@ const P5: VoidComponent = () => {
 		<div
 			ref={setContainerRef}
 			style={{ "--scale": controls.scale }}
-			class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white scale-(--scale)"
+			class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 scale-(--scale) bg-white"
 		></div>
 	);
 };

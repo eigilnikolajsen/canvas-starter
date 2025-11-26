@@ -24,8 +24,9 @@
 		"dev": "bunx --bun vite dev",
 		"format": "bunx prettier . --write --experimental-cli",
 		"lint": "oxlint --type-aware --type-check",
-		"reinstall": "trash bun.lock && bun install",
-		"preview": "bunx --bun vite preview"
+		"preview": "bun run build && bunx --bun vite preview",
+		"reinstall": "rm -f bun.lock && bun install",
+		"update": "bun update --interactive --recursive --force"
 	},
 	"type": "module",
 	"version": "1.0.0"

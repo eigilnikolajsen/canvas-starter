@@ -1,5 +1,5 @@
 import type { VoidComponent } from "solid-js";
-import { store } from "../scripts/store";
+import { setStore, store } from "../scripts/store";
 import { Folder } from "./folder";
 import { RangeInput } from "./inputs/range-input";
 
@@ -12,7 +12,7 @@ const Sketch: VoidComponent = () => (
 			step={0.1}
 			value={store.circleRadius}
 			onChange={(value) => {
-				store.circleRadius = value;
+				setStore("circleRadius", value);
 			}}
 		/>
 
@@ -23,7 +23,7 @@ const Sketch: VoidComponent = () => (
 			step={0.001}
 			value={store.circleSpeed}
 			onChange={(value) => {
-				store.circleSpeed = value;
+				setStore("circleSpeed", value);
 			}}
 		/>
 
@@ -34,7 +34,7 @@ const Sketch: VoidComponent = () => (
 			step={1}
 			value={store.circleMovement}
 			onChange={(value) => {
-				store.circleMovement = value;
+				setStore("circleMovement", value);
 			}}
 		/>
 	</Folder>

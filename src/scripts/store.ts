@@ -1,8 +1,8 @@
 import type P5 from "p5";
-import { createMutable } from "solid-js/store";
+import { createStore } from "solid-js/store";
 import type { IMAGE_FORMATS, VIDEO_FORMATS } from "./export";
 
-const globalStore = createMutable({
+const [globalStore, setGlobalStore] = createStore({
 	p5: null as typeof P5.prototype | null,
 	loopTimeout: null as NodeJS.Timeout | null,
 	exportProgress: 0,
@@ -11,7 +11,7 @@ const globalStore = createMutable({
 	hideMenu: false,
 });
 
-const store = createMutable({
+const [store, setStore] = createStore({
 	// Export
 	fileName: "canvas-starter",
 	imageFormat: "png" as (typeof IMAGE_FORMATS)[number],
@@ -35,4 +35,4 @@ const store = createMutable({
 	circleMovement: 100,
 });
 
-export { globalStore, store };
+export { globalStore, setGlobalStore, setStore, store };

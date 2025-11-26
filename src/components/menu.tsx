@@ -1,6 +1,6 @@
 import type { VoidComponent } from "solid-js";
 import { createEffect, onCleanup, onMount } from "solid-js";
-import { globalStore, store } from "../scripts/store";
+import { globalStore, setGlobalStore, setStore, store } from "../scripts/store";
 import { Export } from "./export";
 import { Size } from "./size";
 import { Sketch } from "./sketch";
@@ -12,11 +12,8 @@ const Menu: VoidComponent = () => {
 		// Load the pane state from localStorage
 		try {
 			const state = localStorage.getItem(LOCAL_STORAGE_KEY);
-			const localState: typeof store = JSON.parse(state ?? "{}"); // oxlint-disable-line no-unsafe-argument
-
-			for (const [key, value] of Object.entries(localState)) {
-				store[key as keyof typeof store] = value as never;
-			}
+			const localState = JSON.parse(state ?? "{}"); // oxlint-disable-line no-unsafe-argument no-unsafe-assignment
+			setStore(localState);
 		} catch (error) {
 			console.error(error);
 		}
@@ -30,7 +27,7 @@ const Menu: VoidComponent = () => {
 
 	const handleKeyDown = (event: KeyboardEvent): void => {
 		if (event.key === "Escape") {
-			globalStore.hideMenu = !globalStore.hideMenu;
+			setGlobalStore("hideMenu", !globalStore.hideMenu);
 		}
 	};
 

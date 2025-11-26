@@ -1,5 +1,5 @@
 import type { VoidComponent } from "solid-js";
-import { store } from "../scripts/store";
+import { setStore, store } from "../scripts/store";
 import { Folder } from "./folder";
 import { CheckboxInput } from "./inputs/checkbox-input";
 import { RangeInput } from "./inputs/range-input";
@@ -13,7 +13,7 @@ const Size: VoidComponent = () => (
 			step={1}
 			value={store.width}
 			onChange={(value) => {
-				store.width = value;
+				setStore("width", value);
 			}}
 		/>
 
@@ -24,7 +24,7 @@ const Size: VoidComponent = () => (
 			step={1}
 			value={store.height}
 			onChange={(value) => {
-				store.height = value;
+				setStore("height", value);
 			}}
 		/>
 
@@ -35,7 +35,7 @@ const Size: VoidComponent = () => (
 			step={0.025}
 			value={store.scale}
 			onChange={(value) => {
-				store.scale = value;
+				setStore("scale", value);
 			}}
 		/>
 
@@ -44,7 +44,7 @@ const Size: VoidComponent = () => (
 			label="fit screen"
 			value={store.fitScreen}
 			onChange={(value) => {
-				store.fitScreen = value;
+				setStore("fitScreen", value);
 			}}
 		/>
 	</Folder>

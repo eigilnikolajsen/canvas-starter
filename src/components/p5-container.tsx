@@ -3,7 +3,7 @@ import type { VoidComponent } from "solid-js";
 import { createEffect, createSignal, onCleanup, onMount } from "solid-js";
 import { loop } from "../scripts/loop";
 import { setup } from "../scripts/sketch";
-import { globalStore, store } from "../scripts/store";
+import { globalStore, setGlobalStore, setStore, store } from "../scripts/store";
 
 const P5Container: VoidComponent = () => {
 	const [containerRef, setContainerRef] = createSignal<HTMLDivElement>();
@@ -12,7 +12,7 @@ const P5Container: VoidComponent = () => {
 		const p5 = new P5(
 			(p5) => {
 				p5.setup = async (): Promise<void> => {
-					globalStore.progress = (store.startFrame * 1000) / store.frameRate;
+					setGlobalStore("progress", (store.startFrame * 1000) / store.frameRate);
 
 					p5.createCanvas(store.width, store.height);
 
@@ -29,7 +29,7 @@ const P5Container: VoidComponent = () => {
 			false,
 		);
 
-		globalStore.p5 = p5;
+		setGlobalStore("p5", p5);
 
 		globalThis.addEventListener("resize", handleResize);
 
@@ -38,7 +38,7 @@ const P5Container: VoidComponent = () => {
 
 			if (globalStore.loopTimeout) {
 				clearTimeout(globalStore.loopTimeout);
-				globalStore.loopTimeout = null;
+				setGlobalStore("loopTimeout", null);
 			}
 
 			globalThis.removeEventListener("resize", handleResize);
@@ -62,9 +62,9 @@ const P5Container: VoidComponent = () => {
 
 		if (fitScreen) {
 			if (width / height > innerWidth / innerHeight) {
-				store.scale = innerWidth / width;
+				setStore("scale", innerWidth / width);
 			} else {
-				store.scale = innerHeight / store.height;
+				setStore("scale", innerHeight / height);
 			}
 		}
 	};

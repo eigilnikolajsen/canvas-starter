@@ -9,7 +9,7 @@ import {
 } from "../scripts/export";
 import { getCanvas } from "../scripts/lib";
 import { loop } from "../scripts/loop";
-import { globalStore, store } from "../scripts/store";
+import { globalStore, setGlobalStore, setStore, store } from "../scripts/store";
 import { Folder } from "./folder";
 import { NumberInput } from "./inputs/number-input";
 import { RadioInput } from "./inputs/radio-input";
@@ -25,7 +25,7 @@ const Export: VoidComponent = () => (
 			step={1}
 			value={store.frameRate}
 			onChange={(value) => {
-				store.frameRate = value;
+				setStore("frameRate", value);
 			}}
 		/>
 
@@ -36,7 +36,7 @@ const Export: VoidComponent = () => (
 			step={1}
 			value={store.startFrame}
 			onChange={(value) => {
-				store.startFrame = value;
+				setStore("startFrame", value);
 			}}
 		/>
 
@@ -47,7 +47,7 @@ const Export: VoidComponent = () => (
 			step={1}
 			value={store.outputFrames}
 			onChange={(value) => {
-				store.outputFrames = value;
+				setStore("outputFrames", value);
 			}}
 		/>
 
@@ -58,7 +58,7 @@ const Export: VoidComponent = () => (
 			step={1}
 			value={store.seed}
 			onChange={(value) => {
-				store.seed = value;
+				setStore("seed", value);
 			}}
 		/>
 
@@ -67,7 +67,7 @@ const Export: VoidComponent = () => (
 			label="file name"
 			value={store.fileName}
 			onChange={(value) => {
-				store.fileName = value;
+				setStore("fileName", value);
 			}}
 		/>
 
@@ -79,7 +79,7 @@ const Export: VoidComponent = () => (
 				value: videoFormat,
 				checked: store.videoFormat === videoFormat,
 				onChange(): void {
-					store.videoFormat = videoFormat;
+					setStore("videoFormat", videoFormat);
 				},
 			}))}
 		/>
@@ -92,7 +92,7 @@ const Export: VoidComponent = () => (
 				value: imageFormat,
 				checked: store.imageFormat === imageFormat,
 				onChange(): void {
-					store.imageFormat = imageFormat;
+					setStore("imageFormat", imageFormat);
 				},
 			}))}
 		/>
@@ -117,9 +117,10 @@ const Export: VoidComponent = () => (
 			class="shadow-menu clickable relative"
 			disabled={globalStore.exportProgress > 0}
 			onClick={async () => {
-				globalStore.isExporting = true;
-				globalStore.progress = store.startFrame;
-				globalStore.exportProgress = 0;
+				setGlobalStore("isExporting", true);
+				setGlobalStore("progress", store.startFrame);
+				setGlobalStore("exportProgress", 0);
+
 				const { p5 } = globalStore;
 				if (!p5) {
 					return;
@@ -130,7 +131,7 @@ const Export: VoidComponent = () => (
 					frames: store.outputFrames,
 					fps: store.frameRate,
 					onProgress: (value) => {
-						globalStore.exportProgress = value * 100;
+						setGlobalStore("exportProgress", value * 100);
 					},
 					onDraw: () => {
 						loop();
@@ -138,9 +139,9 @@ const Export: VoidComponent = () => (
 					videoFormat: "mp4",
 				});
 
-				globalStore.isExporting = false;
-				globalStore.exportProgress = 0;
-				globalStore.progress = store.startFrame;
+				setGlobalStore("isExporting", false);
+				setGlobalStore("exportProgress", 0);
+				setGlobalStore("progress", store.startFrame);
 
 				loop();
 

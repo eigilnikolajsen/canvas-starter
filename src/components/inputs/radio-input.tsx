@@ -16,13 +16,15 @@ interface Props {
 
 const RadioInput: VoidComponent<Props> = (props) => (
 	<div class="flex flex-col">
-		<p>{props.title}</p>
+		<span>{props.title}</span>
+
 		<ul class="flex gap-[1ch] shadow-menu">
 			<For each={props.options}>
 				{(option) => (
 					<li>
-						<label class="flex items-center justify-between clickable not-has-checked:opacity-50">
-							{option.label ?? option.value}
+						<label class="flex items-center justify-between clickable not-has-checked:opacity-50 has-focus-visible:[outline:1px_solid_hsl(0,100%,50%)]">
+							<span>{option.label ?? option.value}</span>
+
 							<input
 								type="radio"
 								name={props.name}

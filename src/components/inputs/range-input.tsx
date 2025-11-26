@@ -11,15 +11,15 @@ interface Props {
 }
 
 const RangeInput: VoidComponent<Props> = (props) => (
-	<li class="shadow-menu flex flex-col">
-		<label class="flex items-center justify-between">
-			<span>{props.label}</span>
+	<div class="flex flex-col gap-[0.5px]">
+		<label class="grid *:row-1 *:col-1 shadow-menu">
+			<span class="whitespace-nowrap">{props.label}</span>
 
 			<input
 				type="text"
 				value={props.value}
 				name={props.label}
-				class="w-24 text-right h-3"
+				class="text-right h-3 flex-1"
 				autocomplete="off"
 				onKeyDown={(event) => {
 					const increasing = event.key === "ArrowUp" || event.key === "ArrowRight";
@@ -46,20 +46,22 @@ const RangeInput: VoidComponent<Props> = (props) => (
 					);
 				}}
 				onChange={(event) => {
-					const value = pipe(
-						Number(event.currentTarget.value),
-						(value) => Math.max(props.min, value),
-						(value) => Math.min(props.max, value),
-						(value) => step(value, props.step),
-						(value) => truncate(value, 3),
+					props.onChange(
+						pipe(
+							Number(event.currentTarget.value),
+							(value) => Math.max(props.min, value),
+							(value) => Math.min(props.max, value),
+							(value) => step(value, props.step),
+							(value) => truncate(value, 3),
+						),
 					);
-					props.onChange(value);
 				}}
 			/>
 		</label>
 
 		<input
 			type="range"
+			class="shadow-menu"
 			min={props.min}
 			max={props.max}
 			step={props.step}
@@ -67,17 +69,18 @@ const RangeInput: VoidComponent<Props> = (props) => (
 			name={props.label}
 			aria-label={props.label}
 			onInput={(event) => {
-				const value = pipe(
-					Number(event.currentTarget.value),
-					(value) => Math.max(props.min, value),
-					(value) => Math.min(props.max, value),
-					(value) => step(value, props.step),
-					(value) => truncate(value, 3),
+				props.onChange(
+					pipe(
+						Number(event.currentTarget.value),
+						(value) => Math.max(props.min, value),
+						(value) => Math.min(props.max, value),
+						(value) => step(value, props.step),
+						(value) => truncate(value, 3),
+					),
 				);
-				props.onChange(value);
 			}}
 		/>
-	</li>
+	</div>
 );
 
 export { RangeInput };

@@ -1,47 +1,41 @@
-import P5 from "p5";
+import P5Lib from "p5";
 import type { VoidComponent } from "solid-js";
 import { createEffect, createSignal, onCleanup, onMount } from "solid-js";
 import { loop } from "../scripts/loop";
 import { setup } from "../scripts/sketch";
-import { globalStore, setGlobalStore, setStore, store } from "../scripts/store";
+import { controls, internal } from "../scripts/stores";
 
-const P5Container: VoidComponent = () => {
+const P5: VoidComponent = () => {
 	const [containerRef, setContainerRef] = createSignal<HTMLDivElement>();
 
 	onMount(() => {
-		const p5 = new P5(
+		// Create a new instance of P5Lib
+		const p5 = new P5Lib(
 			(p5) => {
 				p5.setup = async (): Promise<void> => {
-					setGlobalStore("progress", (store.startFrame * 1000) / store.frameRate);
-
-					p5.createCanvas(store.width, store.height);
-
-					await setup({ store });
+					await setup(p5);
 
 					loop();
 				};
 
 				p5.draw = (): void => {
-					//
+					// Leave the draw function empty
 				};
 			},
 			containerRef(),
 			false,
 		);
 
-		setGlobalStore("p5", p5);
+		internal.p5 = p5;
 
-		globalThis.addEventListener("resize", handleResize);
+		addEventListener("resize", handleResize);
 
 		onCleanup(() => {
 			p5.remove();
 
-			if (globalStore.loopTimeout) {
-				clearTimeout(globalStore.loopTimeout);
-				setGlobalStore("loopTimeout", null);
-			}
+			clearTimeout(internal.timeoutId);
 
-			globalThis.removeEventListener("resize", handleResize);
+			removeEventListener("resize", handleResize);
 		});
 	});
 
@@ -51,8 +45,8 @@ const P5Container: VoidComponent = () => {
 	});
 
 	const handleResize = (): void => {
-		const { p5 } = globalStore;
-		const { width, height, fitScreen } = store;
+		const { p5 } = internal;
+		const { width, height, fitScreen } = controls;
 
 		if (!p5) {
 			return;
@@ -62,9 +56,9 @@ const P5Container: VoidComponent = () => {
 
 		if (fitScreen) {
 			if (width / height > innerWidth / innerHeight) {
-				setStore("scale", innerWidth / width);
+				controls.scale = innerWidth / width;
 			} else {
-				setStore("scale", innerHeight / height);
+				controls.scale = innerHeight / height;
 			}
 		}
 	};
@@ -72,10 +66,10 @@ const P5Container: VoidComponent = () => {
 	return (
 		<div
 			ref={setContainerRef}
-			style={{ "--scale": store.scale }}
+			style={{ "--scale": controls.scale }}
 			class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white scale-(--scale)"
 		></div>
 	);
 };
 
-export { P5Container };
+export { P5 };

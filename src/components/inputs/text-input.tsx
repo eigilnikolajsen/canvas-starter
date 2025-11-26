@@ -9,7 +9,8 @@ interface Props {
 
 const TextInput: VoidComponent<Props> = (props) => (
 	<label class="flex flex-col">
-		{props.label}
+		<span>{props.label}</span>
+
 		<input
 			type="text"
 			value={props.value}

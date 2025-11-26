@@ -1,28 +1,28 @@
-import type { DrawContext, SetupContext } from "./types";
+import type P5 from "p5";
+import { controls } from "./stores";
 
-const setup = async (_context: SetupContext): Promise<void> => {
-	//
+const setup = async (p5: typeof P5.prototype): Promise<void> => {
+	const { width, height } = controls;
+
+	p5.createCanvas(width, height);
 };
 
-const draw = (context: DrawContext): void => {
-	const { p5, progress, store } = context;
-	const { circleRadius, circleSpeed, circleMovement } = store;
+const draw = (p5: typeof P5.prototype): void => {
+	const { currentFrame, circleRadius, circleSpeed, circleMovement } = controls;
 
 	p5.background("#ffffff");
-
 	p5.noStroke();
-	p5.fill("#000000");
+
+	const centerX = p5.width * 0.5;
+	const centerY = p5.height * 0.5;
 
 	for (let i = 0; i < 100; i += 1) {
-		const x =
-			circleMovement * p5.sin(progress * 0.01 * (circleSpeed + p5.random(0, 0.1)))
-			+ p5.random(-p5.width / 2, p5.width / 2);
-		const y =
-			circleMovement * p5.cos(progress * 0.01 * (circleSpeed - p5.random(0, 0.1)))
-			+ p5.random(-p5.height / 2, p5.height / 2);
+		const randomSpeed = p5.random(circleSpeed - 0.001, circleSpeed + 0.001);
+		const x = circleMovement * p5.sin(currentFrame * randomSpeed) + p5.random(-centerX, centerX);
+		const y = circleMovement * p5.cos(currentFrame * randomSpeed) + p5.random(-centerY, centerY);
 
 		p5.fill(p5.random(0, 255), p5.random(0, 255), p5.random(0, 255));
-		p5.circle(p5.width / 2 + x, p5.height / 2 + y, circleRadius);
+		p5.circle(centerX + x, centerY + y, circleRadius);
 	}
 };
 

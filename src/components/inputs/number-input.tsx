@@ -11,25 +11,26 @@ interface Props {
 }
 
 const NumberInput: VoidComponent<Props> = (props) => (
-	<label class="flex flex-col">
-		<span>{props.label}</span>
+	<label class="grid *:row-1 *:col-1 shadow-menu">
+		<span class="whitespace-nowrap">{props.label}</span>
 
 		<input
 			type="number"
-			class="w-full h-3 shadow-menu"
+			class="w-full h-3 text-right"
 			value={props.value}
 			name={props.label}
 			min={props.min}
 			max={props.max}
 			step={props.step}
 			onChange={(event) => {
-				const value = pipe(
-					Number(event.currentTarget.value),
-					(value) => Math.max(props.min ?? -Infinity, value),
-					(value) => Math.min(props.max ?? Infinity, value),
-					(value) => step(value, props.step ?? 1),
+				props.onChange(
+					pipe(
+						Number(event.currentTarget.value),
+						(value) => Math.max(props.min ?? -Infinity, value),
+						(value) => Math.min(props.max ?? Infinity, value),
+						(value) => step(value, props.step ?? 1),
+					),
 				);
-				props.onChange(value);
 			}}
 		/>
 	</label>

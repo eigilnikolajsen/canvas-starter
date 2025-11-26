@@ -1,9 +1,9 @@
 import { draw } from "./sketch";
-import { globalStore, setGlobalStore, store } from "./store";
+import { controls, internal } from "./stores";
 
 const loop = (): void => {
-	const { seed } = store;
-	const { p5, isExporting } = globalStore;
+	const { seed, currentFrame, startFrame, outputFrames, paused, loopFrames } = controls;
+	const { p5, isExporting } = internal;
 
 	if (!p5) {
 		return;
@@ -12,12 +12,22 @@ const loop = (): void => {
 	p5.randomSeed(seed);
 	p5.clear();
 
-	setGlobalStore("progress", globalStore.progress + 1000 / store.frameRate);
+	draw(p5);
 
-	draw({ p5, progress: globalStore.progress, store });
+	if (!paused) {
+		// Increment the progress if not paused
+		controls.currentFrame = currentFrame + 1;
+
+		const aboveLastFrame = currentFrame >= startFrame + outputFrames - 1;
+		const belowFirstFrame = currentFrame < startFrame;
+
+		if (loopFrames && (aboveLastFrame || belowFirstFrame)) {
+			controls.currentFrame = startFrame;
+		}
+	}
 
 	if (!isExporting) {
-		setGlobalStore("loopTimeout", setTimeout(loop, 1000 / store.frameRate));
+		internal.timeoutId = setTimeout(loop, 1000 / controls.frameRate);
 	}
 };
 

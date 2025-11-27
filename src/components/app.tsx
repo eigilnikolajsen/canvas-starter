@@ -7,9 +7,9 @@ import { P5 } from "./p5";
 /** Main app component */
 const App: VoidComponent = () => (
 	<div class="bg-grid fixed inset-0 text-xs leading-3 uppercase">
-		<Controls />
-
 		<P5 />
+
+		<Controls />
 	</div>
 );
 
